@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body onload="#{ControladorArchivos.cargarArchivos()}" style="background-color: gainsboro;">
+    
+    
+        <p:tabView orientation="left" style="background-color: gainsboro;">    
+            <p:tab title="Mis archivos">
+             <h:form id="ViewArchivos">
+
+                                <p:dataTable  id="datatableArchivos" 
+                                              value="#{ControladorArchivos.listaArchivos}"
+                                              var="ars" 
+                                              style="column-width: 50px;font-size: 12px;"
+                                              paginator="true"
+                                              rows="10"
+                                              rowsPerPageTemplate="10,20,30"
+
+                                              rowKey="#{ars.archivosPK.nombrearchivo}"
+                                              selection="#{ControladorArchivos.archivo}"
+                                    selectionMode="single">
+                                    <p:column style="width:4%">  
+                                        <p:commandButton id="selectButton"  icon="ui-icon-check" title="View" >  
+                                            <f:setPropertyActionListener value="#{ars}" target="#{ControladorArchivos.archivo}" />  
+                                        </p:commandButton>  
+                                    </p:column>
+                                    <p:column filterBy="#{ars.archivosPK.nombrearchivo}" headerText="Nombre">
+                                        <h:outputText value="#{ars.archivosPK.nombrearchivo}"/>
+                                    </p:column>
+                                    <p:column filterBy="#{ars.archivosPK.nombreusuario}" headerText="Usuario">
+                                        <h:outputText value="#{ars.archivosPK.nombreusuario}"/>
+                                    </p:column> 
+                                    <p:column style="width:4%">  
+                                        <p:commandButton id="DownloadButton"  icon="ui-icon-circle-arrow-s" title="Download" actionListener="#{ControladorArchivos.descargar()}" ajax="false">  
+                                           
+                                            <p:fileDownload value="#{ControladorArchivos.descargas}" />
+                                        </p:commandButton>  
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form> 
+            </p:tab>
+            <p:tab title="Subir Archivo">
+            
+       <h:form id="uploadfile" enctype="multipart/form-data">
+              <p:fileUpload fileUploadListener="#{ControladorArchivos.handleFileUpload}"
+               mode="advanced"
+               update="messages"
+               sizeLimit="10000000"/> 
+               
+              <p:growl id="messages" showDetail="true" life="3000"/>  
+               </h:form>
+            </p:tab>
+        <p:tab title="Archivos compartido"> </p:tab>    
+        <p:tab title="Perfil"> </p:tab>
+        </p:tabView>
+        
+    </h:body>
+
+</html>
+

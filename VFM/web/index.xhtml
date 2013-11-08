@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Login</title>
+        <link rel="stylesheet" href="resources/style.css" />
+        <h:outputStylesheet library="css" name="style.css"/>
+       
+    </h:head>
+    <h:body onload="#{ControladorInicio.inicializar()}" style="background-color: gainsboro;" >
+        
+        
+        
+        
+             
+            <p:panel id="acessoUsuario"  header="Bienvenido a GAUV" >
+              <h:form id="acceso">  
+                <p:growl id="growl" showDetail="true" life="3000" />
+                <h:panelGrid columns="3">
+                    <h:outputLabel for="login" value=""/>
+                    <p:inputText id="login" value="#{ControladorInicio.login}" required="true" label="Login">
+                     <p:ajax update="msglogin" event="keyup"/>
+                    </p:inputText>
+                    <p:message for="login" id="msglogin" display="icon"/>
+                    
+                    <h:outputLabel for="password" value=""/>
+                    <p:password id="password" value="#{ControladorInicio.password}" required="true" label="Password"> 
+                                 <p:ajax update="msgpassword" event="keyup"/>
+                    </p:password>
+                    <p:message for="password" id="msgpassword" display="icon"/>
+                                     
+                </h:panelGrid>
+                <p:commandButton  style="width: 100px; " id="btn" value="Ingresar" update="growl" action="#{ControladorInicio.validar()}"/>
+               </h:form>
+                <h:form>
+                <p:commandButton style="width: 120px;" id="registrar" value="Registrarse" action="#{ControladorInicio.registrar()}" />
+                </h:form>
+            </p:panel>
+            
+        
+          
+    </h:body>
+    
+    
+</html>

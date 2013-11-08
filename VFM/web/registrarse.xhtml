@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Registro</title>
+        <link rel="stylesheet" href="resources/css/style.css" />
+        <h:outputStylesheet library="css" name="style.css"/>
+    </h:head>
+    
+    <h:body style="background-color: gainsboro;">
+        <h:form id="formulario">
+            <p:growl id="growl" showDetail="true" life="3000" /> 
+        <p:panel id="registros"  header="Registro Usuario">
+        
+            <h:panelGrid columns="3" style="background-color: gainsboro;">
+                
+                  <h:outputLabel for="Nombre" value="Nombre:"/>
+                  <p:inputText   id="Nombre" value="#{ControladorUsuario.nombre}" required="true">
+                 <f:validateLength minimum="2" />
+                 
+                  <p:ajax update="msgnombre" event="keyup"/>
+                  </p:inputText>
+                  <p:message for="Nombre" id="msgnombre" display="icon"/>
+                  
+                  <h:outputLabel for="Apellido" value="Apellido:"/>
+                  <p:inputText id="Apellido" value="#{ControladorUsuario.apellido}" required="true">
+                  <f:validateLength minimum="2" />    
+                  <p:ajax update="msgapellido" event="keyup"/>
+                  </p:inputText>
+                  <p:message for="Apellido" id="msgapellido" display="icon"/>
+                
+                <h:outputLabel for="Login" value="Login:"/>
+                <p:inputText id="Login" value="#{ControladorUsuario.login}" required="true">
+                 <f:validateLength minimum="2" />    
+                  <p:ajax update="msglogin" event="keyup"/>
+                  </p:inputText>
+                  <p:message for="Login" id="msglogin" display="icon"/>
+                  
+                  <h:outputLabel for="pass" value="Password:"/>
+                  <p:password id="pass" value="#{ControladorUsuario.password}" required="true">
+                 <f:validateLength minimum="2" />    
+                  <p:ajax update="msgpass" event="keyup"/>
+                  </p:password>
+                  <p:message for="pass" id="msgpass" display="icon"/>
+                  
+                  <h:outputLabel for="Mail" value="E-Mail:"/>
+                  <p:inputText id="Mail" value="#{ControladorUsuario.correo}" required="true">
+                 <f:validateLength minimum="2" />    
+                  <p:ajax update="msgmail" event="keyup"/>
+                  </p:inputText>
+                  <p:message for="Mail" id="msgmail" display="icon"/>
+                
+                  <h:outputLabel for="cel" value="Celular:"/>
+                  <p:inputText id="cel" value="#{ControladorUsuario.celular}" required="true">
+                  <f:validateLength minimum="2" />    
+                  <p:ajax update="msgcel" event="keyup" />
+                  </p:inputText>
+                  <p:message for="cel" id="msgcel" display="icon"/>
+                
+            </h:panelGrid>   
+            
+            <p:commandButton id="buttonregistro" value="Registrarse" update="growl" action="#{ControladorUsuario.registrarse()}"/>
+                
+            
+        </p:panel>
+        
+        </h:form>
+    </h:body>
+    
+    
+    
+</html>
