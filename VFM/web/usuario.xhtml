@@ -26,10 +26,7 @@
                                               selection="#{ControladorArchivos.archivo}"
                                     selectionMode="single">
                                     <p:column style="width:4%">  
-                                        <p:commandButton id="selectButton"  icon="ui-icon-check" title="View" >  
-                                            <f:setPropertyActionListener value="#{ars}" target="#{ControladorArchivos.archivo}" />  
-                                        </p:commandButton>  
-                                    </p:column>
+                                         </p:column>
                                     <p:column filterBy="#{ars.archivosPK.nombrearchivo}" headerText="Nombre">
                                         <h:outputText value="#{ars.archivosPK.nombrearchivo}"/>
                                     </p:column>
