@@ -110,8 +110,11 @@ public class ControladorArchivos implements Serializable {
     }
 
     public void transferFile(String FileName, InputStream in) {
+        
+        ControladorInicio controla = (ControladorInicio) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ControladorInicio");
+        String nombre= controla.getLogin();
         try {
-            OutputStream out = new FileOutputStream(new File(destination + FileName));
+            OutputStream out = new FileOutputStream(new File(destination+nombre+"\\" + FileName));
             int reader = 0;
             byte[] bytes = new byte[(int) getFile().getSize()];
             try {
@@ -140,11 +143,12 @@ public class ControladorArchivos implements Serializable {
         ArchivosPK pk = new ArchivosPK();
         pk.setNombrearchivo(getFile().getFileName());
         ControladorInicio controla = (ControladorInicio) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ControladorInicio");
-        pk.setNombreusuario(controla.getLogin());
+        String nombre= controla.getLogin();
+        pk.setNombreusuario(nombre);
         a.setPropietario(Boolean.TRUE);
         a.setUsuarios(daoUsuario.findUsuarios(controla.getLogin()));
         a.setArchivosPK(pk);
-        a.setRutaarchivo(destination + getFile().getFileName());
+        a.setRutaarchivo(destination+nombre+"\\" + getFile().getFileName());
         a.setTam((int) getFile().getSize() + "");
         try {
             daoArchivos.create(a);

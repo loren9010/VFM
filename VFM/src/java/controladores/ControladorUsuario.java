@@ -8,6 +8,7 @@ package controladores;
 
 import connection.Connection;
 import dao.UsuariosJpaController;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
@@ -102,6 +103,8 @@ public class ControladorUsuario {
             nuevo.setPass(getPassword());
         try {
             daoUsuario.create(nuevo);
+            File carpeta= new File("C:\\Users\\Public\\Documents\\Sispro\\"+getLogin());
+            carpeta.mkdir();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario creado con extito", "Bienvenido"+ getLogin())); 
             
         } catch (Exception ex) {
