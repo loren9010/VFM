@@ -9,6 +9,7 @@ package controladores;
 import connection.Connection;
 import dao.UsuariosJpaController;
 import java.io.File;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
@@ -25,7 +26,7 @@ import modelo.Usuarios;
 
 @ManagedBean(name="ControladorUsuario")
 @SessionScoped
-public class ControladorUsuario {
+public class ControladorUsuario implements Serializable{
     
     public EntityManagerFactory factory;
     public String login,password,nombre,apellido,correo,celular;

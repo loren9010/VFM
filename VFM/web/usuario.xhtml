@@ -7,7 +7,7 @@
     <h:head>
         <title>Facelet Title</title>
     </h:head>
-    <h:body onload="#{ControladorArchivos.cargarArchivos()}" style="background-color: gainsboro;">
+    <h:body onload="#{ControladorArchivos.cargarArchivos()};#{ControladorArchivos.cargarArchivosCompartidos()}" style="background-color: gainsboro;">
     
     
         <p:tabView orientation="left" style="background-color: gainsboro;">    
@@ -53,7 +53,43 @@
               <p:growl id="messages" showDetail="true" life="3000"/>  
                </h:form>
             </p:tab>
-        <p:tab title="Archivos compartido"> </p:tab>    
+        <p:tab title="Archivos compartido">
+            <h:form id="ViewArchivosCompartido">
+
+                                <p:dataTable  id="datatableArchivos" 
+                                              value="#{ControladorArchivos.listaArchivosCompartidos}"
+                                              var="arsC" 
+                                              style="column-width: 50px;font-size: 12px;"
+                                              paginator="true"
+                                              rows="10"
+                                              rowsPerPageTemplate="10,20,30"
+
+                                              rowKey="#{arsC.archivosPK.nombrearchivo}"
+                                              selection="#{ControladorArchivos.archivo}"
+                                    selectionMode="single">
+                                    <p:column style="width:4%">  
+                                         </p:column>
+                                    <p:column filterBy="#{arsC.archivosPK.nombrearchivo}" headerText="Nombre">
+                                        <h:outputText value="#{arsC.archivosPK.nombrearchivo}"/>
+                                    </p:column>
+                                    <p:column filterBy="#{arsC.archivosPK.nombreusuario}" headerText="Usuario">
+                                        <h:outputText value="#{arsC.archivosPK.nombreusuario}"/>
+                                    </p:column> 
+                                    <p:column style="width:4%">  
+                                        <p:commandButton id="DownloadButton"  icon="ui-icon-circle-arrow-s" title="Download" actionListener="#{ControladorArchivos.descargar()}" ajax="false">  
+                                           
+                                            <p:fileDownload value="#{ControladorArchivos.descargas}" />
+                                        </p:commandButton>  
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form> 
+            
+            
+        
+        </p:tab>
+        <p:tab title="Compartir Archivos"> </p:tab>
+        <p:tab title="Lista de contactos"> </p:tab>
+        <p:tab title="Agregar contacto"> </p:tab>
         <p:tab title="Perfil"> </p:tab>
         </p:tabView>
         

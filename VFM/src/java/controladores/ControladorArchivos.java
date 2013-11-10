@@ -48,7 +48,16 @@ public class ControladorArchivos implements Serializable {
     private EntityManagerFactory factory;
     private Archivos archivo;
     private List<Archivos> listaArchivos;
+    private List<Archivos> listaArchivosCompartidos;
     private List<Archivos> FiltroArchivos;
+
+    public List<Archivos> getListaArchivosCompartidos() {
+        return listaArchivosCompartidos;
+    }
+
+    public void setListaArchivosCompartidos(List<Archivos> listaArchivosCompartidos) {
+        this.listaArchivosCompartidos = listaArchivosCompartidos;
+    }
 
     public StreamedContent getDescargas() {
         return descargas;
@@ -163,7 +172,6 @@ public class ControladorArchivos implements Serializable {
 
         factory = Connection.getEmf();
         ArchivosJpaController daoArchivos = new ArchivosJpaController(factory);
-        setListaArchivos(daoArchivos.findArchivosEntities());
         ControladorInicio controla = (ControladorInicio) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ControladorInicio");
         String login = controla.getLogin();
         List<Archivos> listaAux = daoArchivos.findArchivosEntities();
@@ -171,14 +179,36 @@ public class ControladorArchivos implements Serializable {
 
         for (int i = 0; i < listaAux.size(); i++) {
 
-            if (listaAux.get(i).getArchivosPK().getNombreusuario().equals(login)) {
+            if (listaAux.get(i).getArchivosPK().getNombreusuario().equals(login) && listaAux.get(i).getPropietario()==true) {
 
                 listaFinal.add(listaAux.get(i));
+                System.out.println(listaAux.get(i).getArchivosPK().getNombreusuario());
             }
 
         }
         setListaArchivos(listaFinal);
 
+    }
+    
+    public void cargarArchivosCompartidos(){
+        
+        factory = Connection.getEmf();
+        ArchivosJpaController daoArchivos = new ArchivosJpaController(factory);
+      
+        ControladorInicio controla = (ControladorInicio) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("ControladorInicio");
+        String login = controla.getLogin();
+        List<Archivos> listaAux = daoArchivos.findArchivosEntities();
+        List<Archivos> listaFinal = new ArrayList<Archivos>();
+
+        for (int i = 0; i < listaAux.size(); i++) {
+
+            if (listaAux.get(i).getArchivosPK().getNombreusuario().equals(login) && listaAux.get(i).getPropietario()==false) {
+
+                listaFinal.add(listaAux.get(i));
+            }
+
+        }
+        setListaArchivosCompartidos(listaFinal);
     }
 
     public void descargar() throws FileNotFoundException {
