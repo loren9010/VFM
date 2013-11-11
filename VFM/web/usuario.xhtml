@@ -53,6 +53,7 @@
               <p:growl id="messages" showDetail="true" life="3000"/>  
                </h:form>
             </p:tab>
+            
         <p:tab title="Archivos compartido">
             <h:form id="ViewArchivosCompartido">
 
@@ -81,15 +82,32 @@
                                             <p:fileDownload value="#{ControladorArchivos.descargas}" />
                                         </p:commandButton>  
                                     </p:column>
+                                    <p:column style="width:4%">  
+                                        <p:commandButton id="ShareButton"  icon="ui-icon-transferthick-e-w" title="Share" onclick="dlgArchivos.show()">  
+                                           
+                                            
+                                        </p:commandButton>  
+                                    </p:column>
                                 </p:dataTable>
                             </h:form> 
+            <h:form>
+                <p:dialog id="dialog" header="Compartir archivos" widgetVar="dlgArchivos" resizable="false" modal="true" closable="true">  
+                    <p:growl id="growl" showDetail="true" life="3000" />
+        <h:panelGrid id="grid" columns="3" cellpadding="5">  
+            <h:outputLabel for="username" value="Usuario:" />  
+            <p:inputText  id="login" required="true" requiredMessage="Digite un usuario" value="#{ControladorArchivos.usuario}"/>
+            <p:message id="defaultMessage" for="login" />
             
+            <f:facet name="footer">  
+                <p:commandButton id="BuscarUsuarioButton" value="Compartir" actionListener="#{ControladorArchivos.compartir()}" update="growl"/>  
+            </f:facet>  
             
-        
+        </h:panelGrid>  
+          
+    </p:dialog> 
+             
+            </h:form>
         </p:tab>
-        <p:tab title="Compartir Archivos"> </p:tab>
-        <p:tab title="Lista de contactos"> </p:tab>
-        <p:tab title="Agregar contacto"> </p:tab>
         <p:tab title="Perfil"> </p:tab>
         </p:tabView>
         

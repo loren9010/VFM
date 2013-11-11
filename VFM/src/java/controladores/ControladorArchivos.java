@@ -50,7 +50,16 @@ public class ControladorArchivos implements Serializable {
     private List<Archivos> listaArchivos;
     private List<Archivos> listaArchivosCompartidos;
     private List<Archivos> FiltroArchivos;
+    private String Usuario;
 
+    public String getUsuario() {
+        return Usuario;
+    }
+
+    public void setUsuario(String Usuario) {
+        this.Usuario = Usuario;
+    }
+    
     public List<Archivos> getListaArchivosCompartidos() {
         return listaArchivosCompartidos;
     }
@@ -209,6 +218,14 @@ public class ControladorArchivos implements Serializable {
 
         }
         setListaArchivosCompartidos(listaFinal);
+    }
+    
+    public void compartir() {
+    
+     FacesContext contex = FacesContext.getCurrentInstance();
+     contex.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Entro al metodo compartir","comparte xD"));
+            
+    
     }
 
     public void descargar() throws FileNotFoundException {
