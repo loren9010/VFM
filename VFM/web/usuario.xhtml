@@ -10,10 +10,12 @@
     <h:body onload="#{ControladorArchivos.cargarArchivos()};#{ControladorArchivos.cargarArchivosCompartidos()}" style="background-color: gainsboro;">
     
     
-        <p:tabView orientation="left" style="background-color: gainsboro;">    
+        <p:tabView orientation="left" style="background-color: gainsboro;">  
+            
             <p:tab title="Mis archivos">
+                
              <h:form id="ViewArchivos">
-
+                    
                                 <p:dataTable  id="datatableArchivos" 
                                               value="#{ControladorArchivos.listaArchivos}"
                                               var="ars" 
@@ -24,25 +26,28 @@
 
                                               rowKey="#{ars.archivosPK.nombrearchivo}"
                                               selection="#{ControladorArchivos.archivo}"
-                                    selectionMode="single">
-                                    <p:column style="width:4%">  
+                                    >
+                                    <p:growl id="growlArchivos" showDetail="true" life="3000" />
+                                    <p:column selectionMode="single" style="width:4%">  
                                          </p:column>
                                     <p:column filterBy="#{ars.archivosPK.nombrearchivo}" headerText="Nombre">
                                         <h:outputText value="#{ars.archivosPK.nombrearchivo}"/>
                                     </p:column>
-                                    <p:column filterBy="#{ars.archivosPK.nombreusuario}" headerText="Usuario">
-                                        <h:outputText value="#{ars.archivosPK.nombreusuario}"/>
+                                    <p:column filterBy="#{ars.tam}" headerText="Size">
+                                        <h:outputText value="#{ars.tam}"/>
                                     </p:column> 
-                                    <p:column style="width:4%">  
+                                    <p:column style="width:2%">  
                                         <p:commandButton id="DownloadButton"  icon="ui-icon-circle-arrow-s" title="Download" actionListener="#{ControladorArchivos.descargar()}" ajax="false">  
                                            
                                             <p:fileDownload value="#{ControladorArchivos.descargas}" />
                                         </p:commandButton>  
                                     </p:column>
-                                    <p:column style="width:4%">  
+                                    <p:column style="width:2%">  
                                         <p:commandButton id="ShareButton"  icon="ui-icon-transferthick-e-w" title="Share" onclick="dlgArchivos.show()">  
-                                           
-                                            
+                                        </p:commandButton>  
+                                    </p:column>
+                                    <p:column style="width:2%">  
+                                        <p:commandButton id="DeleteButton"  icon="ui-icon-trash" title="Delete" actionListener="#{ControladorArchivos.borrarArchivo()}" update="growlArchivos">  
                                         </p:commandButton>  
                                     </p:column>
                                 </p:dataTable>
@@ -58,7 +63,7 @@
             <p:message id="msgUsuario" for="login" display="icon"/>
             
             <f:facet name="footer">  
-                <p:commandButton id="BuscarUsuarioButton" value="Compartir" actionListener="#{ControladorArchivos.compartir()}" update="growl"/>  
+                <p:commandButton id="BuscarUsuarioButton" value="Compartir" actionListener="#{ControladorArchivos.compartir()}" update="growl" onclick="dlgArchivos.hide()"/>  
             </f:facet>  
             
         </h:panelGrid>  
@@ -93,8 +98,8 @@
 
                                               rowKey="#{arsC.archivosPK.nombrearchivo}"
                                               selection="#{ControladorArchivos.archivo}"
-                                    selectionMode="single">
-                                    <p:column style="width:4%">  
+                                    >
+                                    <p:column selectionMode="single" style="width:4%">  
                                          </p:column>
                                     <p:column filterBy="#{arsC.archivosPK.nombrearchivo}" headerText="Nombre">
                                         <h:outputText value="#{arsC.archivosPK.nombrearchivo}"/>

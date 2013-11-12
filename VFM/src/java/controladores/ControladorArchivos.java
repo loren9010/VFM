@@ -8,6 +8,7 @@ package controladores;
 import connection.Connection;
 import dao.ArchivosJpaController;
 import dao.UsuariosJpaController;
+import dao.exceptions.NonexistentEntityException;
 import dao.exceptions.PreexistingEntityException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -223,9 +224,28 @@ public class ControladorArchivos implements Serializable {
     
     public void compartir() {
     
-     FacesContext contex = FacesContext.getCurrentInstance();
-     contex.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Entro al metodo compartir","comparte xD"));
+     factory= Connection.getEmf();
+     ArchivosJpaController daoArchivos= new ArchivosJpaController(factory);
+     UsuariosJpaController daoUsuario = new UsuariosJpaController(factory);
+     System.out.println(archivo.getArchivosPK().getNombrearchivo());
+     System.out.println(Usuario);
+        Archivos a = new Archivos();
+        ArchivosPK pk = new ArchivosPK();
+        pk.setNombrearchivo(getArchivo().getArchivosPK().getNombrearchivo());
+        pk.setNombreusuario(Usuario);
+        a.setPropietario(Boolean.FALSE);
+        a.setUsuarios(daoUsuario.findUsuarios(Usuario));
+        a.setArchivosPK(pk);
+        a.setRutaarchivo(destination+Usuario+"\\" + archivo.getArchivosPK().getNombrearchivo());
+        a.setTam(archivo.getTam());
+        try {
+            daoArchivos.create(a);
+            FacesContext contex = FacesContext.getCurrentInstance();
+        contex.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Archivo compartido con exito",archivo.getArchivosPK().getNombrearchivo()));
             
+        } catch (Exception ex) {
+            Logger.getLogger(ControladorArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     
     }
     
@@ -259,5 +279,31 @@ public class ControladorArchivos implements Serializable {
         contex.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "debe seleccionar un archivo","archivo no encontrado"));
               }
         
+    }
+    public void borrarArchivo(){
+    factory= Connection.getEmf();
+    ArchivosJpaController daoArchivos= new ArchivosJpaController(factory);
+    List<Archivos> listaArchivos=daoArchivos.findArchivosEntities();
+        try {
+            for(int i=0; i<listaArchivos.size();i++){
+            if(listaArchivos.get(i).getArchivosPK().getNombrearchivo().equals(archivo.getArchivosPK().getNombrearchivo())){
+            daoArchivos.destroy(listaArchivos.get(i).getArchivosPK());
+           
+            }
+            }
+            
+            File file = new File(archivo.getRutaarchivo());
+            file.delete();
+            setListaArchivos(daoArchivos.findArchivosEntities());
+            FacesContext contex = FacesContext.getCurrentInstance();
+            contex.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "archivo borrado con exito",archivo.getArchivosPK().getNombrearchivo()));
+        
+        } catch (NonexistentEntityException ex) {
+        FacesContext contex = FacesContext.getCurrentInstance();
+        contex.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "debe seleccionar un archivo","archivo no encontrado"));
+        }
+    
+    
+    
     }
 }
