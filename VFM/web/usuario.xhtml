@@ -39,8 +39,34 @@
                                             <p:fileDownload value="#{ControladorArchivos.descargas}" />
                                         </p:commandButton>  
                                     </p:column>
+                                    <p:column style="width:4%">  
+                                        <p:commandButton id="ShareButton"  icon="ui-icon-transferthick-e-w" title="Share" onclick="dlgArchivos.show()">  
+                                           
+                                            
+                                        </p:commandButton>  
+                                    </p:column>
                                 </p:dataTable>
                             </h:form> 
+                <h:form>
+                <p:dialog id="dialog" header="Compartir archivos" widgetVar="dlgArchivos" resizable="false" modal="true" closable="true">  
+                    <p:growl id="growl" showDetail="true" life="3000" />
+        <h:panelGrid id="grid" columns="3" cellpadding="5">  
+            <h:outputLabel for="username" value="Usuario:" />  
+            <p:autoComplete id="login" value="#{ControladorArchivos.usuario}" required="true" requiredMessage="Digite un usuario" completeMethod="#{ControladorArchivos.buscarUsuario}">
+              <p:ajax update="msgUsuario" event="keyup"/>
+             </p:autoComplete>
+            <p:message id="msgUsuario" for="login" display="icon"/>
+            
+            <f:facet name="footer">  
+                <p:commandButton id="BuscarUsuarioButton" value="Compartir" actionListener="#{ControladorArchivos.compartir()}" update="growl"/>  
+            </f:facet>  
+            
+        </h:panelGrid>  
+          
+    </p:dialog> 
+             
+            </h:form>
+                
             </p:tab>
             <p:tab title="Subir Archivo">
             
@@ -82,31 +108,10 @@
                                             <p:fileDownload value="#{ControladorArchivos.descargas}" />
                                         </p:commandButton>  
                                     </p:column>
-                                    <p:column style="width:4%">  
-                                        <p:commandButton id="ShareButton"  icon="ui-icon-transferthick-e-w" title="Share" onclick="dlgArchivos.show()">  
-                                           
-                                            
-                                        </p:commandButton>  
-                                    </p:column>
+                                    
                                 </p:dataTable>
                             </h:form> 
-            <h:form>
-                <p:dialog id="dialog" header="Compartir archivos" widgetVar="dlgArchivos" resizable="false" modal="true" closable="true">  
-                    <p:growl id="growl" showDetail="true" life="3000" />
-        <h:panelGrid id="grid" columns="3" cellpadding="5">  
-            <h:outputLabel for="username" value="Usuario:" />  
-            <p:inputText  id="login" required="true" requiredMessage="Digite un usuario" value="#{ControladorArchivos.usuario}"/>
-            <p:message id="defaultMessage" for="login" />
             
-            <f:facet name="footer">  
-                <p:commandButton id="BuscarUsuarioButton" value="Compartir" actionListener="#{ControladorArchivos.compartir()}" update="growl"/>  
-            </f:facet>  
-            
-        </h:panelGrid>  
-          
-    </p:dialog> 
-             
-            </h:form>
         </p:tab>
         <p:tab title="Perfil"> </p:tab>
         </p:tabView>

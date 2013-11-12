@@ -29,6 +29,7 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityManagerFactory;
 import modelo.Archivos;
 import modelo.ArchivosPK;
+import modelo.Usuarios;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -225,6 +226,22 @@ public class ControladorArchivos implements Serializable {
      FacesContext contex = FacesContext.getCurrentInstance();
      contex.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Entro al metodo compartir","comparte xD"));
             
+    
+    }
+    
+    public List<String> buscarUsuario(String entrada){
+        factory = Connection.getEmf();
+        UsuariosJpaController daoUsuarios = new UsuariosJpaController(factory);
+        List<Usuarios> ListaUsuarios= daoUsuarios.findUsuariosEntities();
+        List<String> listNombres= new ArrayList<String>();
+        for(int i=0; i<ListaUsuarios.size(); i++){
+        
+        if(ListaUsuarios.get(i).getLogin().startsWith(entrada)){
+            listNombres.add(ListaUsuarios.get(i).getLogin());
+        }
+        
+        }
+        return listNombres;
     
     }
 
