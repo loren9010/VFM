@@ -246,11 +246,18 @@ public class ControladorArchivos implements Serializable {
     }
 
     public void descargar() throws FileNotFoundException {
+        try{
         File archivos = new File(getArchivo().getRutaarchivo());
         InputStream stream = new FileInputStream(archivos);
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 
         StreamedContent aux = new DefaultStreamedContent(stream, externalContext.getMimeType(archivos.getName()), archivos.getName());
         setDescargas(aux);
+        }
+        catch(Exception e){
+            FacesContext contex = FacesContext.getCurrentInstance();
+        contex.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "debe seleccionar un archivo","archivo no encontrado"));
+              }
+        
     }
 }
